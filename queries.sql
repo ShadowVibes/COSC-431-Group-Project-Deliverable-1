@@ -1,0 +1,104 @@
+
+-- Q01 | Spider Question 3 | Easy: Lookup
+-- List the names of all music genres.
+SELECT Name FROM GENRE;
+
+
+-- Q02 | Spider Question 5 | Easy: Lookup
+-- Find all customer information in state NY.
+SELECT * FROM CUSTOMER WHERE State = 'NY';
+
+
+-- Q03 | Spider Question 7 | Easy: Lookup
+-- What are the first and last names of employees who live in Calgary?
+SELECT FirstName, LastName
+FROM EMPLOYEE
+WHERE City = 'Calgary';
+
+
+-- Q04 | Spider Question 9 | Easy: DISTINCT
+-- What are the distinct billing countries of invoices?
+SELECT DISTINCT BillingCountry FROM INVOICE;
+
+
+-- Q05 | Spider Question 11 | Easy: LIKE
+-- Find names of artists containing the letter "a".
+SELECT Name FROM ARTIST WHERE Name LIKE '%a%';
+
+
+-- Q06 | Spider Question 13 | Join
+-- Find titles of albums by AC/DC.
+SELECT Title
+FROM ALBUM AS T1
+JOIN ARTIST AS T2 ON T1.ArtistId = T2.ArtistId
+WHERE T2.Name = 'AC/DC';
+
+
+-- Q07 | Spider Question 15 | Join + COUNT
+-- How many albums does Metallica have?
+SELECT COUNT(*)
+FROM ALBUM AS T1
+JOIN ARTIST AS T2 ON T1.ArtistId = T2.ArtistId
+WHERE T2.Name = 'Metallica';
+
+
+-- Q08 | Spider Question 17 | Join
+-- Which artist made "Balls to the Wall"?
+SELECT T2.Name
+FROM ALBUM AS T1
+JOIN ARTIST AS T2 ON T1.ArtistId = T2.ArtistId
+WHERE T1.Title = 'Balls to the Wall';
+
+
+-- Q09 | Spider Question 23 | Aggregation
+-- What is the average unit price of all tracks?
+SELECT AVG(UnitPrice) FROM TRACK;
+
+
+-- Q10 | Spider Question 25 | Aggregation
+-- Longest and shortest track durations in milliseconds.
+SELECT MAX(Milliseconds), MIN(Milliseconds)
+FROM TRACK;
+
+
+-- Q11 | Spider Question 27 | Join + GROUP BY
+-- Album titles, IDs, and track counts for each album.
+SELECT T1.Title, T2.AlbumID, COUNT(*)
+FROM ALBUM AS T1
+JOIN TRACK AS T2 ON T1.AlbumId = T2.AlbumId
+GROUP BY T2.AlbumID;
+
+
+-- Q12 | Spider Question 35 | Join + COUNT
+-- How many tracks belong to the Rock genre?
+SELECT COUNT(*)
+FROM GENRE AS T1
+JOIN TRACK AS T2 ON T1.GenreId = T2.GenreId
+WHERE T1.Name = 'Rock';
+
+
+-- Q13 | Spider Question 43 | Join
+-- Which employee helps the customer named Leonie?
+SELECT T2.FirstName, T2.LastName
+FROM CUSTOMER AS T1
+JOIN EMPLOYEE AS T2 ON T1.SupportRepId = T2.EmployeeId
+WHERE T1.FirstName = 'Leonie';
+
+
+-- Q14 | Spider Question 69 | Join + HAVING
+-- Artists with at least 3 albums, alphabetically.
+SELECT T2.Name, T1.ArtistId
+FROM ALBUM AS T1
+JOIN ARTIST AS T2 ON T1.ArtistId = T2.ArtistID
+GROUP BY T1.ArtistId
+HAVING COUNT(*) >= 3
+ORDER BY T2.Name;
+
+
+-- Q15 | Spider Question 81 | Subquery
+-- How many artists do not have any albums?
+SELECT COUNT(*)
+FROM ARTIST
+WHERE ArtistId NOT IN (
+    SELECT ArtistId FROM ALBUM
+);
